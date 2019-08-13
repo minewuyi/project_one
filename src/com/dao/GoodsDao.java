@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * @author wuyi
  * @date 2019/8/12 12:28
  */
-public class SqlDao {
+public class GoodsDao {
 
 // 用于主页简短展示的商品信息 不包含全部信息
 
@@ -63,17 +63,18 @@ public class SqlDao {
     }
 
     // 通过id删除单个商品
-    public static void delete(int id) throws SQLException {
+    public static int delete(int id) throws SQLException {
         Connection conn = BaseDao.getConnection();
-        String sql = "select * from goodsinfo where id=?";
+        String sql = "delete from goodsinfo where id= ? ";
         PreparedStatement pst = conn.prepareStatement(sql);
         pst.setInt(1, id);
-        pst.execute();
+        int result =pst.executeUpdate();
         conn.close();
+        return result;
     }
 
     // 更新方法
-    public static boolean update(
+    public static int update(
             int id,
             String goodsInfoName,
             String goodsInfoPic,
@@ -95,14 +96,11 @@ public class SqlDao {
         pst.setInt(7, id);
 
         int resNum = pst.executeUpdate();
-        if (resNum == 1) {
-            return true;
-        }
-        return false;
+        return resNum;
     }
 
     //新增加商品 有些时区问题
-    public static boolean add(
+    public static int add(
             String goodsInfoName,
             String goodsInfoPic,
             float goodsInfoPrice,
@@ -112,7 +110,8 @@ public class SqlDao {
             int created
     ) throws SQLException {
         Connection conn = BaseDao.getConnection();
-        String sql = "INSERT INTO goodsinfo (goodsInfoName,goodsInfoPic,goodsInfoPrice,goodsInfoDescription,goodsStock,flag,created,createdDate) VALUES (?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO goodsinfo (goodsInfoName,goodsInfoPic,goodsInfoPrice,goodsInfoDescription," +
+                "goodsStock,flag,created,createdDate) VALUES (?,?,?,?,?,?,?,?)";
         PreparedStatement pst = conn.prepareStatement(sql);
         pst.setString(1, goodsInfoName);
         pst.setString(2, goodsInfoPic);
@@ -123,10 +122,7 @@ public class SqlDao {
         pst.setInt(7, created);
         pst.setTimestamp(8, DateUtil.timestamp()); //因为数据库里日期类型是timestamp类型，所以设置也为相同类型
         int resNum = pst.executeUpdate();
-        if (resNum == 1) {
-            return true;
-        }
-        return false;
+        return resNum;
     }
 
     public static void main(String[] args) throws SQLException {

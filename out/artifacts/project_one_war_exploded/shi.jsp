@@ -2,13 +2,13 @@
   Created by IntelliJ IDEA.
   User: minew
   Date: 2019/8/12
-  Time: 18:56
+  Time: 19:06
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>商品详情</title>
+    <title>Title</title>
     <style type="text/css">
         table.hovertable {
             font-family: verdana, arial, sans-serif;
@@ -40,48 +40,55 @@
     </style>
 </head>
 <body>
-<h1>你好，用户${username}</h1>
-<table class="hovertable" align="center" border="1">
-    <tr>
-        <th width="10%">商品编号</th>
-        <th width="30%">${good.id}</th>
-    </tr>
-    <tr>
-        <td>商品名字</td>
-        <td>${good.goodsInfoName}</td>
-    </tr>
-    <tr>
-        <td>商品图片</td>
-        <td>${good.goodsInfoPic}</td>
 
+<!-- Table goes in the document BODY -->
+<table class="hovertable">
+    <tr>
+        <th>Info Header 1</th>
+        <th>Info Header 2</th>
+        <th>Info Header 3</th>
     </tr>
     <tr>
-        <td>商品价格</td>
-        <td>${good.goodsInfoPrice}</td>
+        <td>Item 1A</td>
+        <td>Item 1B</td>
+        <td>Item 1C</td>
     </tr>
     <tr>
-        <td>商品描述</td>
-        <td>${good.goodsInfoDescription}</td>
+        <td>Item 2A</td>
+        <td>Item 2B</td>
+        <td>Item 2C</td>
     </tr>
     <tr>
-        <td>商品存货</td>
-        <td>${good.goodsStock}</td>
+        <td>Item 3A</td>
+        <td>Item 3B</td>
+        <td>Item 3C</td>
     </tr>
     <tr>
-        <td>创建人id</td>
-        <td>${good.created}</td>
+        <td>Item 4A</td>
+        <td>Item 4B</td>
+        <td>Item 4C</td>
     </tr>
     <tr>
-        <td>状态</td>
-        <td>${good.created}</td>
+        <td>Item 5A</td>
+        <td>Item 5B</td>
+        <td>Item 5C</td>
     </tr>
     <tr>
-        <td>操作</td>
-        <td>
-            <a href="/baseServlet?opr=delete&id=${good.id}" onclick="return confirm('确定删除吗？')">删除</a>
-            <a href="/baseServlet?opr=update&id=${good.id}">修改</a>
-        </td>
+        <td>Item 5A</td>
+        <td>Item 5B</td>
+        <td>Item 5C</td>
     </tr>
+    <tr>
+        <td>Item 5A</td>
+        <td>Item 5B</td>
+        <td>Item 5C</td>
+    </tr>
+    <tr>
+        <td>Item 5A</td>
+        <td>Item 5B</td>
+        <td>Item 5C</td>
+    </tr>
+
 </table>
 </body>
 </html>
