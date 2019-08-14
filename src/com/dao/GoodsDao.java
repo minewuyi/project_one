@@ -29,7 +29,11 @@ public class GoodsDao {
             goodsInfo.setGoodsInfoName(rs.getString("goodsInfoName"));
             goodsInfo.setGoodsInfoPrice(rs.getInt("goodsInfoPrice"));
             goodsInfo.setGoodsStock(rs.getInt("goodsStock"));
-            goodsInfo.setFlag(rs.getString("flag"));
+            if (rs.getString("flag").equals("true")){
+                goodsInfo.setFlag("激活");
+            }else{
+                goodsInfo.setFlag("禁用");
+            }
             result.add(goodsInfo);
         }
         conn.close();
@@ -51,7 +55,11 @@ public class GoodsDao {
             goodsInfo.setGoodsInfoPrice(rs.getInt("goodsInfoPrice"));
             goodsInfo.setGoodsInfoDescription(rs.getString("goodsInfoDescription"));
             goodsInfo.setGoodsStock(rs.getInt("goodsStock"));
-            goodsInfo.setFlag(rs.getString("flag"));
+            if (rs.getString("flag").equals("true")){
+                goodsInfo.setFlag("激活");
+            }else{
+                goodsInfo.setFlag("禁用");
+            }
             goodsInfo.setCreated(rs.getInt("created"));
             goodsInfo.setCreatedDate(rs.getTimestamp("createdDate"));
             conn.close();
@@ -68,7 +76,7 @@ public class GoodsDao {
         String sql = "delete from goodsinfo where id= ? ";
         PreparedStatement pst = conn.prepareStatement(sql);
         pst.setInt(1, id);
-        int result =pst.executeUpdate();
+        int result = pst.executeUpdate();
         conn.close();
         return result;
     }
@@ -94,7 +102,6 @@ public class GoodsDao {
         pst.setString(6, flag);
 //        pst.setInt(7, created);
         pst.setInt(7, id);
-
         int resNum = pst.executeUpdate();
         return resNum;
     }

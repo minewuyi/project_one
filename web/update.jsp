@@ -41,7 +41,7 @@
 </head>
 <body>
 <h1>你好，用户${username}</h1>
-<form action="/baseServlet">
+<form action="/baseServlet?opr=doUpdate" method="post" enctype="multipart/form-data">
 <table class="hovertable" align="center" border="1">
     <tr>
         <th width="10%">商品编号</th>
@@ -53,8 +53,10 @@
     </tr>
     <tr>
         <td>商品图片</td>
-        <td>${good.goodsInfoPic}</td>
-
+        <td>>
+            <img src="${good.goodsInfoPic}" width="150px" height="150px">
+            <input type="file" name="goodsInfoPic" accept="image/*">
+        </td>
     </tr>
     <tr>
         <td>商品价格</td>
@@ -74,12 +76,17 @@
     </tr>
     <tr>
         <td>状态</td>
-        <td><input type="text" name="flag" value="${good.flag}" readonly ="readonly"></td>
+        <td>
+            <select name="flag" value="${good.flag}">
+            <option value="true">激活</option>
+            <option value="false">禁用</option>
+            </select>
+            <input type="hidden" name="old" value="${good.goodsInfoPic}">
+        </td>
     </tr>
     <tr>
         <td>操作</td>
-        <td><button type="submit" name="opr"  value="doUpdate" onclick="return confirm('确定更新吗？')">更新</button>
-        </td>
+        <td><button type="submit" onclick="return confirm('确定更新吗？')">更新</button></td>
     </tr>
 </table>
 </form>

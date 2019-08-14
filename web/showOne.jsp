@@ -52,8 +52,7 @@
     </tr>
     <tr>
         <td>商品图片</td>
-        <td>${good.goodsInfoPic}</td>
-
+        <td><img src="${good.goodsInfoPic}" width="150px" height="150px"></td>
     </tr>
     <tr>
         <td>商品价格</td>
@@ -73,7 +72,7 @@
     </tr>
     <tr>
         <td>状态</td>
-        <td>${good.created}</td>
+        <td>${good.flag}</td>
     </tr>
     <tr>
         <td>操作</td>

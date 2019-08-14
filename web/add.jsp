@@ -38,14 +38,31 @@
             border-color: #a9c6c9;
         }
     </style>
+    <script>
+
+        // function changImg(e) {
+        //     for (var i = 0; i < e.target.files.length; i++) {
+        //         var file = e.target.files.item(i);
+        //         if (!(/^image\/.*$/i.test(file.type))) {
+        //             continue; //不是图片 就跳出这一次循环
+        //         }
+        //         //实例化FileReader API
+        //         var freader = new FileReader();
+        //         freader.readAsDataURL(file);
+        //         freader.onload = function (e) {
+        //             $("#myImg").attr("src", e.target.result);
+        //         }
+        //     }
+        // }
+    </script>
 </head>
 <body>
 <h1>你好，用户${username}</h1>
-<form action="/baseServlet">
+<form action="/baseServlet?opr=add" method="post" enctype="multipart/form-data">
     <table class="hovertable" align="center" border="1">
         <tr>
             <th width="10%">商品编号</th>
-            <th width="30%">${good.id} <input type="hidden" name="id" value="${good.id}"></th>
+            <th width="30%">${good.id}</th>
         </tr>
         <tr>
             <td>商品名字</td>
@@ -53,7 +70,9 @@
         </tr>
         <tr>
             <td>商品图片</td>
-            <td>${good.goodsInfoPic}</td>
+            <td>
+                <input type="file" name="goodsInfoPic" accept="image/*">${file}
+            </td>
 
         </tr>
         <tr>
@@ -66,19 +85,25 @@
         </tr>
         <tr>
             <td>商品存货</td>
-            <td><input type="text"name="goodsStock"></td>
+            <td><input type="text" name="goodsStock"></td>
         </tr>
         <tr>
             <td>创建人</td>
-            <td> <input type="text" name="created" value="1" readonly ="readonly"></td>
+            <td><input type="text" name="created" value="1" readonly="readonly"></td>
         </tr>
         <tr>
             <td>状态</td>
-            <td><input type="text" name="flag" value="${good.flag}"></td>
+            <td>
+                <select name="flag" value="${good.flag}">
+                    <option value="true">激活</option>
+                    <option value="false">禁用</option>
+                </select>
+            </td>
         </tr>
         <tr>
             <td>操作</td>
-            <td><button type="submit" name="opr"  value="add"  onclick="return confirm('确定添加吗？')">添加</button>
+            <td>
+                <button type="submit" name="opr" value="add" onclick="return confirm('确定添加吗？')">添加</button>
             </td>
         </tr>
     </table>
