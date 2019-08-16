@@ -19,20 +19,9 @@ public class GoodsInfo {
     private String flag;
     private int created;
     private Timestamp createdDate;
+    private String createdName;
 
     public GoodsInfo() {
-    }
-
-    public GoodsInfo(int id, String goodsInfoName, String goodsInfoPic, float goodsInfoPrice, String goodsInfoDescription, int goodsStock, String flag, int created, Timestamp createdDate) {
-        this.id = id;
-        this.goodsInfoName = goodsInfoName;
-        this.goodsInfoPic = goodsInfoPic;
-        this.goodsInfoPrice = goodsInfoPrice;
-        this.goodsInfoDescription = goodsInfoDescription;
-        this.goodsStock = goodsStock;
-        this.flag = flag;
-        this.created = created;
-        this.createdDate = createdDate;
     }
 
     public int getId() {
@@ -107,6 +96,15 @@ public class GoodsInfo {
         this.createdDate = createdDate;
     }
 
+
+    public String getCreatedName() {
+        return createdName;
+    }
+
+    public void setCreatedName(String createdName) {
+        this.createdName = createdName;
+    }
+
     @Override
     public String toString() {
         return "GoodsInfo{" +
@@ -117,8 +115,9 @@ public class GoodsInfo {
                 ", goodsInfoDescription='" + goodsInfoDescription + '\'' +
                 ", goodsStock=" + goodsStock +
                 ", flag='" + flag + '\'' +
-                ", created='" + created + '\'' +
-                ", createdDate='" + createdDate + '\'' +
+                ", created=" + created +
+                ", createdDate=" + createdDate +
+                ", createdName='" + createdName + '\'' +
                 '}';
     }
 }

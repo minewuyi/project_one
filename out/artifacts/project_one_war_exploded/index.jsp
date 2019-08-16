@@ -10,7 +10,8 @@
   <head>
     <title>$Title$</title>
   </head>
-  <body>
+  <body background="image/timg.jfif">
+  <h1>你好，用户${user.userName}</h1>
   $END$
   </body>
 </html>

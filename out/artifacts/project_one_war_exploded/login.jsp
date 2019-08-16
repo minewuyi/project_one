@@ -69,7 +69,7 @@
 </head>
 <body>
 <div class="login-box">
-    <h1 class="login-title">欢迎登录</h1>
+    <h1 class="login-title"><a href="login.jsp">登录</a> | <a href="register.jsp">注册</a></h1>
     <form action="loginServlet" method="post">
         <div class="login-row">
             账号：<input type="text" class="login-text" name="username" id="username"/>
@@ -80,6 +80,7 @@
         <div align="center">
             <button type="submit" onclick="return check()" class="login-button" name="opr" value="login">登录</button>
         </div>
+
     </form>
 </div>
 </body>

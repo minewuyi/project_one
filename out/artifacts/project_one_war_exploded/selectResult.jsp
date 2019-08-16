@@ -2,14 +2,14 @@
 <%--
   Created by IntelliJ IDEA.
   User: minew
-  Date: 2019/8/12
-  Time: 17:47
+  Date: 2019/8/15
+  Time: 15:38
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>商品一览</title>
+    <title>查询结果</title>
     <link href="css/one.css" type="text/css">
 </head>
 <body>
@@ -41,12 +41,6 @@
             </tr>
         </c:forEach>
     </c:if>
-    <tr>
-        <td colspan="6" align="center">
-            <button type="button"><a href="add.jsp">添加</a></button>
-            <button type="button"><a href="select.jsp">查询</a></button>
-        </td>
-    </tr>
     </tbody>
 </table>
 </body>

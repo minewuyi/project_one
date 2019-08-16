@@ -12,7 +12,5 @@
 </head>
 <body>
 ${error}
-<img src="upload/${file}"><br/>
-<a href="#">${file}</a>
 </body>
 </html>

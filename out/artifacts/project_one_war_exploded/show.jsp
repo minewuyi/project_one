@@ -10,38 +10,10 @@
 <html>
 <head>
     <title>商品一览</title>
-    <style type="text/css">
-        table.hovertable {
-            font-family: verdana, arial, sans-serif;
-            font-size: 11px;
-            color: #333333;
-            border-width: 1px;
-            border-color: #999999;
-            border-collapse: collapse;
-        }
-
-        table.hovertable th {
-            background-color: #c3dde0;
-            border-width: 1px;
-            padding: 8px;
-            border-style: solid;
-            border-color: #a9c6c9;
-        }
-
-        table.hovertable tr {
-            background-color: #d4e3e5;
-        }
-
-        table.hovertable td {
-            border-width: 1px;
-            padding: 8px;
-            border-style: solid;
-            border-color: #a9c6c9;
-        }
-    </style>
+    <link href="css/one.css" type="text/css">
 </head>
 <body>
-<h1>你好，用户${username}</h1>
+<h1>你好，用户${user.userName}</h1>
 <table border="1" align="center" style="" class="hovertable">
     <thead>
     <tr>
@@ -72,7 +44,7 @@
     <tr>
         <td colspan="6" align="center">
             <button type="button"><a href="add.jsp">添加</a></button>
-            <button type="button" onclick="onPrompt()">查询</button>
+            <button type="button"><a href="select.jsp">查询</a></button>
         </td>
     </tr>
     </tbody>

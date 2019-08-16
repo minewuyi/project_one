@@ -14,7 +14,7 @@ import java.sql.SQLException;
 public class UserDao {
     public static User selectUser(String userName, String passWord) throws SQLException {
         Connection conn = BaseDao.getConnection();
-        String sql = "SELECT id,userName from user where userName= ? and passWord= ?";
+        String sql = "SELECT id,userName,phone,email,flag from user where userName= ? and passWord= ?";
         PreparedStatement pstm = conn.prepareStatement(sql);
         pstm.setString(1, userName);
         pstm.setString(2, passWord);
@@ -23,6 +23,10 @@ public class UserDao {
         if (rs.next()) {
             user.setId(rs.getInt("id"));
             user.setUserName(rs.getString("userName"));
+            user.setPhone(rs.getString("phone"));
+            user.setEmail(rs.getString("email"));
+            if (rs.getString("flag").equals("true")){user.setFlag("激活");}
+            else {user.setFlag("禁用");}
             conn.close();
             return user;
         } else {

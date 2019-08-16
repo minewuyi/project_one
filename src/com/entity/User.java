@@ -5,7 +5,7 @@ package com.entity;
  * @date 2019/8/12 11:39
  */
 public class User {
-    private int id;
+    private int id=0;
     private String userName;
     private String passWord;
     private String sex;

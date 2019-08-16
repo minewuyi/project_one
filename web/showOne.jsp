@@ -9,42 +9,14 @@
 <html>
 <head>
     <title>商品详情</title>
-    <style type="text/css">
-        table.hovertable {
-            font-family: verdana, arial, sans-serif;
-            font-size: 11px;
-            color: #333333;
-            border-width: 1px;
-            border-color: #999999;
-            border-collapse: collapse;
-        }
-
-        table.hovertable th {
-            background-color: #c3dde0;
-            border-width: 1px;
-            padding: 8px;
-            border-style: solid;
-            border-color: #a9c6c9;
-        }
-
-        table.hovertable tr {
-            background-color: #d4e3e5;
-        }
-
-        table.hovertable td {
-            border-width: 1px;
-            padding: 8px;
-            border-style: solid;
-            border-color: #a9c6c9;
-        }
-    </style>
+    <link href="css/one.css" type="text/css">
 </head>
-<body>
-<h1>你好，用户${username}</h1>
+<body >
+<h1>你好，用户${user.userName}</h1>
 <table class="hovertable" align="center" border="1">
     <tr>
-        <th width="10%">商品编号</th>
-        <th width="30%">${good.id}</th>
+        <td >商品编号</td>
+        <td >${good.id}</td>
     </tr>
     <tr>
         <td>商品名字</td>
@@ -52,7 +24,7 @@
     </tr>
     <tr>
         <td>商品图片</td>
-        <td><img src="${good.goodsInfoPic}" width="150px" height="150px"></td>
+        <td><img src="/upload/${good.goodsInfoPic}" width="150px" height="150px"></td>
     </tr>
     <tr>
         <td>商品价格</td>
@@ -67,8 +39,12 @@
         <td>${good.goodsStock}</td>
     </tr>
     <tr>
-        <td>创建人id</td>
-        <td>${good.created}</td>
+        <td>创建人</td>
+        <td>${good.createdName}</td>
+    </tr>
+    <tr>
+        <td>创建日期</td>
+        <td>${good.createdDate}</td>
     </tr>
     <tr>
         <td>状态</td>

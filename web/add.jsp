@@ -9,75 +9,50 @@
 <html>
 <head>
     <title>Title</title>
-    <style type="text/css">
-        table.hovertable {
-            font-family: verdana, arial, sans-serif;
-            font-size: 11px;
-            color: #333333;
-            border-width: 1px;
-            border-color: #999999;
-            border-collapse: collapse;
-        }
-
-        table.hovertable th {
-            background-color: #c3dde0;
-            border-width: 1px;
-            padding: 8px;
-            border-style: solid;
-            border-color: #a9c6c9;
-        }
-
-        table.hovertable tr {
-            background-color: #d4e3e5;
-        }
-
-        table.hovertable td {
-            border-width: 1px;
-            padding: 8px;
-            border-style: solid;
-            border-color: #a9c6c9;
-        }
-    </style>
+    <link href="css/one.css" type="text/css">
     <script>
+        function preview(file) {
+            var prevDiv = document.getElementById('preview');
+            if (file.files && file.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (evt) {
+                    // prevDiv.innerHTML = '<img width="100%" height="100%" id="qw_img" src="' + evt.target.result + '" />';
+                    $('.preview').attr('src', evt.target.result);
+                }
+                reader.readAsDataURL(file.files[0]);
+            } else {
+                // prevDiv.innerHTML = '<div class="img" style="filter:progid:DXImageTransform.
+                // Microsoft.AlphaImageLoader(sizingMethod=scale,src=\'' + file.value + '\'"></div>';
+                $('.preview').attr('src', file.value);
+            }
+            17
+        }
 
-        // function changImg(e) {
-        //     for (var i = 0; i < e.target.files.length; i++) {
-        //         var file = e.target.files.item(i);
-        //         if (!(/^image\/.*$/i.test(file.type))) {
-        //             continue; //不是图片 就跳出这一次循环
-        //         }
-        //         //实例化FileReader API
-        //         var freader = new FileReader();
-        //         freader.readAsDataURL(file);
-        //         freader.onload = function (e) {
-        //             $("#myImg").attr("src", e.target.result);
-        //         }
-        //     }
-        // }
-    </script>
+        18 </script>
 </head>
 <body>
-<h1>你好，用户${username}</h1>
+<h1>你好，用户${user.userName}</h1>
 <form action="/baseServlet?opr=add" method="post" enctype="multipart/form-data">
     <table class="hovertable" align="center" border="1">
         <tr>
-            <th width="10%">商品编号</th>
-            <th width="30%">${good.id}</th>
+            <th>商品编号</th>
+            <th>${good.id}</th>
         </tr>
         <tr>
             <td>商品名字</td>
-            <td><input type="text" name="goodsInfoName" value="${good.goodsInfoName}"></td>
+            <td><input type="text" name="goodsInfoName" value="${good.goodsInfoName}" required></td>
         </tr>
         <tr>
             <td>商品图片</td>
             <td>
-                <input type="file" name="goodsInfoPic" accept="image/*">${file}
+                <img src="" alt="" width="80" style="margin-left: 20px" id="id_img">
+                <input type="file" name="goodsInfoPic" accept="image/*" id="id_myfile">${file}
             </td>
 
         </tr>
         <tr>
             <td>商品价格</td>
-            <td><input type="text" name="goodsInfoPrice"></td>
+            <td><input type="text" name="goodsInfoPrice" required></td>
         </tr>
         <tr>
             <td>商品描述</td>
@@ -85,11 +60,11 @@
         </tr>
         <tr>
             <td>商品存货</td>
-            <td><input type="text" name="goodsStock"></td>
+            <td><input type="text" name="goodsStock" required></td>
         </tr>
         <tr>
-            <td>创建人</td>
-            <td><input type="text" name="created" value="1" readonly="readonly"></td>
+            <td>创建人id</td>
+            <td><input type="text" name="created" value="${user.id}" readonly="readonly"></td>
         </tr>
         <tr>
             <td>状态</td>

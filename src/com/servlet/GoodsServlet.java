@@ -50,11 +50,33 @@ public class GoodsServlet extends HttpServlet {
             add(req, resp);
         } else if (opr.equals("delete")) {
             delete(req, resp);
+        } else if (opr.equals("select")) {
+            select(req, resp);
         } else {
+            System.out.println("qita");
             show(req, resp);
         }
 
 
+    }
+//  模糊查询
+    private void select(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        GoodsInfo goodsInfo = new GoodsInfo();
+        goodsInfo.setId(StringToInt.str2Int(req.getParameter("id")));
+        goodsInfo.setGoodsInfoName(req.getParameter("goodsInfoName"));
+        goodsInfo.setGoodsInfoPrice(StringToInt.str2Float(req.getParameter("goodsInfoPrice")));
+        goodsInfo.setGoodsStock(StringToInt.str2Int(req.getParameter("goodsStock")));
+        goodsInfo.setCreated(StringToInt.str2Int(req.getParameter("created")));
+        goodsInfo.setFlag(req.getParameter("flag"));
+
+
+        try {
+            ArrayList<GoodsInfo> list = GoodsDao.findGoods(goodsInfo);
+            req.setAttribute("list", list);
+            req.getRequestDispatcher("selectResult.jsp").forward(req, resp);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     //删除货物
@@ -65,7 +87,6 @@ public class GoodsServlet extends HttpServlet {
             int result = GoodsDao.delete(StringToInt.str2Int(id));
             if (result > 0) {
                 out.print("<script>alert(\"删除成功！\");location.href='/baseServlet?opr=show'</script>");
-                System.out.println("hellp");
             } else {
                 out.print("<script>alert(\"删除失败！\");history.back()</script>");
             }
@@ -74,12 +95,13 @@ public class GoodsServlet extends HttpServlet {
         }
     }
 
+    //增加货物
     private void add(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         PrintWriter out = resp.getWriter();
         //创建工厂
-        DiskFileItemFactory factoy = new DiskFileItemFactory();
+        DiskFileItemFactory factory = new DiskFileItemFactory();
         //创建解析器
-        ServletFileUpload sfu = new ServletFileUpload(factoy);
+        ServletFileUpload sfu = new ServletFileUpload(factory);
         //接收获得的结果集
         try {
             List<FileItem> list = sfu.parseRequest(req);
@@ -114,20 +136,21 @@ public class GoodsServlet extends HttpServlet {
                 //保存文件
                 list.get(1).write(newFile);
                 //获取相对路径已存到数据库
-                name = "/upload/" + newFile.getName();
+                name =newFile.getName();
                 System.out.println(name);
             } else {
-                name=null;
+                name = null;
             }
             int result = GoodsDao.add(goodsInfoName, name, StringToInt.str2Float(goodsInfoPrice),
                     goodsInfoDescription, StringToInt.str2Int(goodsStock), flag, StringToInt.str2Int(created));
             if (result > 0) {
                 out.print("<script>alert(\"添加成功！\");location.href='/baseServlet?opr=show'</script>");
             } else {
-                out.print("<script>alert(\"添加失败！\");history.back()</script>");
+                out.print("<script>alert(\"添加失败！ 数据库错误\");history.back()</script>");
             }
         } catch (Exception e) {
             e.printStackTrace();
+            out.print("<script>alert(\"添加失败！ 异常错误\");history.back()</script>");
         }
 
     }
@@ -136,9 +159,9 @@ public class GoodsServlet extends HttpServlet {
     private void doUpdate(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         PrintWriter out = resp.getWriter();
         //创建工厂
-        DiskFileItemFactory factoy = new DiskFileItemFactory();
+        DiskFileItemFactory factory = new DiskFileItemFactory();
         //创建解析器
-        ServletFileUpload sfu = new ServletFileUpload(factoy);
+        ServletFileUpload sfu = new ServletFileUpload(factory);
 
 
         try {
@@ -151,31 +174,46 @@ public class GoodsServlet extends HttpServlet {
             String created = list.get(6).getString("utf-8");
             String flag = list.get(7).getString("utf-8");
             String old = list.get(8).getString("utf-8");
-
+            String fileName = list.get(2).getName();
+            String path = this.getServletContext().getRealPath("/upload");
 
             //获取要写入的目录
             String name;
             if (!"".equals(list.get(2).getName())) {
-                String path = this.getServletContext().getRealPath("/upload");
 
-                //获取文件后缀名
-                String fileName = list.get(2).getName();
-                int dot = fileName.lastIndexOf('.');
-                String last = fileName.substring(dot);
-                System.out.println(last);
+//判断之前有没有图片，如果没有，就直接创建个新的
+                if (old==null||"".equals(old)){
+
+                    int dot = fileName.lastIndexOf('.');
+                    String last = fileName.substring(dot);
+                    System.out.println(last);
+                    //设置随机文件名 避免重复文件名
+                    SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
+                    String date = df.format(new Date());
+                    String newFileName = goodsInfoName + "+" + created + "+" + date + last;
 
 
-                //设置随机文件名 避免重复文件名
-                SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
-                String date = df.format(new Date());
-                String newFileName = goodsInfoName + "+" + created + "+" + date + last;
-                //使用目录和文件名创建目标文件
-                File newFile = new File(path, newFileName);
-                //保存文件
-                list.get(2).write(newFile);
-                //获取相对路径已存到数据库
-                name = "/upload/" + newFile.getName();
-            } else {
+                    //使用目录和文件名创建目标文件
+                    File newFile = new File(path, newFileName);
+                    //保存文件
+                    list.get(2).write(newFile);
+                    name =newFile.getName();
+            }
+
+//                如果有，则覆盖原文件
+                else {
+                    //使用目录和文件名创建目标文件
+                    File newFile = new File(path,old);
+                    //保存文件
+                    list.get(2).write(newFile);
+                    //获取相对路径已存到数据库
+                    name = old;
+                }
+
+
+            }
+            //否则没有上传依旧为空
+            else {
                 name = old;
             }
 
@@ -184,10 +222,11 @@ public class GoodsServlet extends HttpServlet {
             if (result > 0) {
                 out.print("<script>alert(\"更新成功！\");location.href='/baseServlet?opr=show'</script>");
             } else {
-                out.print("<script>alert(\"更新失败！\");history.back()</script>");
+                out.print("<script>alert(\"更新失败！ 数据库错误\");history.back()</script>");
             }
         } catch (Exception e) {
             e.printStackTrace();
+            out.print("<script>alert(\"添加失败！ 异常错误\");history.back()</script>");
         }
 
     }

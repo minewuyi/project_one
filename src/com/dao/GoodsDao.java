@@ -29,9 +29,9 @@ public class GoodsDao {
             goodsInfo.setGoodsInfoName(rs.getString("goodsInfoName"));
             goodsInfo.setGoodsInfoPrice(rs.getInt("goodsInfoPrice"));
             goodsInfo.setGoodsStock(rs.getInt("goodsStock"));
-            if (rs.getString("flag").equals("true")){
+            if (rs.getString("flag").equals("true")) {
                 goodsInfo.setFlag("激活");
-            }else{
+            } else {
                 goodsInfo.setFlag("禁用");
             }
             result.add(goodsInfo);
@@ -43,7 +43,7 @@ public class GoodsDao {
     // 展示当个商品的所有信息 包括描述图片等
     public static GoodsInfo showOne(int id) throws SQLException {
         Connection conn = BaseDao.getConnection();
-        String sql = "select * from goodsinfo where id=?";
+        String sql = "SELECT g.* ,  u.username FROM goodsinfo as g , `user` as u   WHERE  g.id=?  AND u.id=g.created;";
         PreparedStatement pst = conn.prepareStatement(sql);
         pst.setInt(1, id);
         ResultSet rs = pst.executeQuery();
@@ -55,9 +55,10 @@ public class GoodsDao {
             goodsInfo.setGoodsInfoPrice(rs.getInt("goodsInfoPrice"));
             goodsInfo.setGoodsInfoDescription(rs.getString("goodsInfoDescription"));
             goodsInfo.setGoodsStock(rs.getInt("goodsStock"));
-            if (rs.getString("flag").equals("true")){
+            goodsInfo.setCreatedName(rs.getString("username"));
+            if (rs.getString("flag").equals("true")) {
                 goodsInfo.setFlag("激活");
-            }else{
+            } else {
                 goodsInfo.setFlag("禁用");
             }
             goodsInfo.setCreated(rs.getInt("created"));
@@ -132,7 +133,90 @@ public class GoodsDao {
         return resNum;
     }
 
-    public static void main(String[] args) throws SQLException {
-        System.out.println(showOne(1));
+    //多条件查询
+    public static ArrayList<GoodsInfo> findGoods(GoodsInfo goodsInfo) throws SQLException {
+        PreparedStatement prs = null;
+        ResultSet rs = null;
+        Connection conn = BaseDao.getConnection();
+        ArrayList<GoodsInfo> list = new ArrayList<>();
+        try {
+            // 1、获得连接对象
+            // 2、获得sql语句
+            StringBuffer sf = new StringBuffer();
+            sf.append(" select * from goodsinfo where 1=1 ");
+            ArrayList paramList = new ArrayList();
+            if (goodsInfo != null) {
+                //通过id查询
+                if (goodsInfo.getId() > 0) {
+                    sf.append(" and id = ? ");
+                    paramList.add(goodsInfo.getId());
+                }
+                //通过名字查询
+                if (goodsInfo.getGoodsInfoName() != null && !goodsInfo.getGoodsInfoName().equals("")) {
+                    sf.append(" and goodsInfoName = ?");
+                    paramList.add(goodsInfo.getGoodsInfoName());
+                }
+                //通过价格查询
+                if (goodsInfo.getGoodsInfoPrice() >= 0) {
+                    sf.append(" and goodsInfoPrice = ? ");
+                    paramList.add(goodsInfo.getGoodsInfoPrice());
+                }
+                //通过库存查询
+                if (goodsInfo.getGoodsStock() > 0) {
+                    sf.append(" and goodsStock = ? ");
+                    paramList.add(goodsInfo.getGoodsStock());
+                }
+                //通过状态查询
+                if (goodsInfo.getFlag() != null && !goodsInfo.getFlag().equals("")) {
+                    sf.append(" and flag = ? ");
+                    paramList.add(goodsInfo.getFlag());
+                }
+                //通过创建人id查询
+                if (goodsInfo.getCreated() > 0) {
+                    sf.append(" and created = ? ");
+                    paramList.add(goodsInfo.getCreated());
+                }
+                //通过创建日期查询
+                if (goodsInfo.getCreatedDate() != null && !goodsInfo.getCreatedDate().equals("")) {
+                    sf.append("and createdDate = ?");
+                    paramList.add(goodsInfo.getCreatedDate());
+                }
+            }
+            // 3、获得预编译语句集
+            prs = conn.prepareStatement(sf.toString());
+            // 4、设置占位符的值
+            if (paramList != null && paramList.size() > 0) {
+                for (int i = 0; i < paramList.size(); i++) {
+                    prs.setObject(i + 1, paramList.get(i));
+                }
+            }
+            // 5、执行sql语句并获得结果集
+            rs = prs.executeQuery();
+
+            // 6、遍历
+            while (rs.next()) {
+                GoodsInfo entity = new GoodsInfo();
+                entity.setId(rs.getInt("id"));
+                entity.setGoodsInfoName(rs.getString("goodsInfoName"));
+                entity.setGoodsInfoPic(rs.getString("goodsInfoPic"));
+                entity.setGoodsInfoPrice(rs.getFloat("goodsInfoPrice"));
+                entity.setGoodsInfoDescription(rs.getString("goodsInfoDescription"));
+                entity.setGoodsStock(rs.getInt("goodsStock"));
+                if (rs.getString("flag").equals("true")) {entity.setFlag("激活");}
+                else {entity.setFlag("禁用");}
+                entity.setCreated(rs.getInt("created"));
+                entity.setCreatedDate(rs.getTimestamp("createdDate"));
+                list.add(entity);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        conn.close();
+        return list;
     }
 }
+
+//    public static void main(String[] args) throws SQLException {
+//        System.out.println(showOne(1));
+//    }
+//}

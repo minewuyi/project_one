@@ -9,86 +9,60 @@
 <html>
 <head>
     <title>更新商品</title>
-    <style type="text/css">
-        table.hovertable {
-            font-family: verdana, arial, sans-serif;
-            font-size: 11px;
-            color: #333333;
-            border-width: 1px;
-            border-color: #999999;
-            border-collapse: collapse;
-        }
-
-        table.hovertable th {
-            background-color: #c3dde0;
-            border-width: 1px;
-            padding: 8px;
-            border-style: solid;
-            border-color: #a9c6c9;
-        }
-
-        table.hovertable tr {
-            background-color: #d4e3e5;
-        }
-
-        table.hovertable td {
-            border-width: 1px;
-            padding: 8px;
-            border-style: solid;
-            border-color: #a9c6c9;
-        }
-    </style>
+    <link href="css/one.css" type="text/css">
 </head>
 <body>
-<h1>你好，用户${username}</h1>
+<h1>你好，用户${user.userName}</h1>
 <form action="/baseServlet?opr=doUpdate" method="post" enctype="multipart/form-data">
-<table class="hovertable" align="center" border="1">
-    <tr>
-        <th width="10%">商品编号</th>
-        <th width="30%">${good.id} <input type="hidden" name="id" value="${good.id}"></th>
-    </tr>
-    <tr>
-        <td>商品名字</td>
-        <td><input type="text" name="goodsInfoName" value="${good.goodsInfoName}"></td>
-    </tr>
-    <tr>
-        <td>商品图片</td>
-        <td>>
-            <img src="${good.goodsInfoPic}" width="150px" height="150px">
-            <input type="file" name="goodsInfoPic" accept="image/*">
-        </td>
-    </tr>
-    <tr>
-        <td>商品价格</td>
-        <td><input type="text" name="goodsInfoPrice" value="${good.goodsInfoPrice}"></td>
-    </tr>
-    <tr>
-        <td>商品描述</td>
-        <td><input type="text" name="goodsInfoDescription" value="${good.goodsInfoDescription}" ></td>
-    </tr>
-    <tr>
-        <td>商品存货</td>
-        <td><input type="text"name="goodsStock" value="${good.goodsStock}" ></td>
-    </tr>
-    <tr>
-        <td>创建人</td>
-        <td> <input type="text" name="created" value="${good.created}" readonly ="readonly"></td>
-    </tr>
-    <tr>
-        <td>状态</td>
-        <td>
-            <select name="flag" value="${good.flag}">
-            <option value="true">激活</option>
-            <option value="false">禁用</option>
-            </select>
-            <input type="hidden" name="old" value="${good.goodsInfoPic}">
-        </td>
-    </tr>
-    <tr>
-        <td>操作</td>
-        <td><button type="submit" onclick="return confirm('确定更新吗？')">更新</button></td>
-    </tr>
-</table>
+    <table class="hovertable" align="center" border="1">
+        <tr>
+            <td>商品编号</td>
+            <td>${good.id}<input type="hidden" name="id" value="${good.id}"></td>
+        </tr>
+        <tr>
+            <td>商品名字</td>
+            <td><input type="text" name="goodsInfoName" value="${good.goodsInfoName}" required></td>
+        </tr>
+        <tr>
+            <td>商品图片</td>
+            <td>
+                <img src="/upload/${good.goodsInfoPic}" width="150px" height="150px"><br>
+                <input type="file" name="goodsInfoPic" accept="image/*">
+            </td>
+        </tr>
+        <tr>
+            <td>商品价格</td>
+            <td><input type="text" name="goodsInfoPrice" value="${good.goodsInfoPrice}" required></td>
+        </tr>
+        <tr>
+            <td>商品描述</td>
+            <td><input type="text" name="goodsInfoDescription" value="${good.goodsInfoDescription}"></td>
+        </tr>
+        <tr>
+            <td>商品存货</td>
+            <td><input type="text" name="goodsStock" value="${good.goodsStock}" required></td>
+        </tr>
+        <tr>
+            <td>创建人</td>
+            <td><input type="text" name="created" value="${good.created}" readonly="readonly"></td>
+        </tr>
+        <tr>
+            <td>状态</td>
+            <td>
+                <select name="flag" value="${good.flag}">
+                    <option value="true">激活</option>
+                    <option value="false">禁用</option>
+                </select>
+                <input type="hidden" name="old" value="${good.goodsInfoPic}">
+            </td>
+        </tr>
+        <tr>
+            <td>操作</td>
+            <td>
+                <button type="submit" onclick="return confirm('确定更新吗？')">更新</button>
+            </td>
+        </tr>
+    </table>
 </form>
 </body>
 </html>

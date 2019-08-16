@@ -32,25 +32,29 @@ public class LoginServlet extends HttpServlet {
         if (opr.equals("login")){
             login(req, resp);
         }else if (opr.equals("register")){
-            String username = req.getParameter("username");
-            String password = req.getParameter("password");
-            String sex = req.getParameter("sex");
-            String hobby = req.getParameter("hobby");
-            String tel = req.getParameter("tel");
-            String email = req.getParameter("email");
-            String addrs = req.getParameter("addrs");
-            String flag = req.getParameter("flag");
-            PrintWriter out=resp.getWriter();
-            try {
-               int result= UserDao.addUser(username,password,sex,hobby,tel,email,addrs,flag);
-                if (result > 0) {
-                    out.print("<script>alert(\"注册成功！\");location.href='/baseServlet?opr=show'</script>");
-                } else {
-                    out.print("<script>alert(\"注册失败！\");history.back()</script>");
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+            addUser(req, resp);
+        }
+    }
+
+    private void addUser(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String username = req.getParameter("username");
+        String password = req.getParameter("password");
+        String sex = req.getParameter("sex");
+        String hobby = req.getParameter("hobby");
+        String tel = req.getParameter("tel");
+        String email = req.getParameter("email");
+        String addrs = req.getParameter("addrs");
+        String flag = req.getParameter("flag");
+        PrintWriter out=resp.getWriter();
+        try {
+           int result= UserDao.addUser(username,password,sex,hobby,tel,email,addrs,flag);
+            if (result > 0) {
+                out.print("<script>alert(\"注册成功！\");location.href='/login.jsp'</script>");
+            } else {
+                out.print("<script>alert(\"注册失败！\");history.back()</script>");
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -67,8 +71,8 @@ public class LoginServlet extends HttpServlet {
                 //创建会话对象
                 HttpSession session=req.getSession();
                 //将username值加入会话内，接下来多个页面都可以使用
-                session.setAttribute("username",user.getUserName());
-                req.getRequestDispatcher("index.jsp").forward(req, resp);
+                session.setAttribute("user",user);
+                req.getRequestDispatcher("/baseServlet?opr=show").forward(req, resp);
             }
         } catch (SQLException | ServletException e) {
             e.printStackTrace();

@@ -20,6 +20,9 @@
             } else if (password == "") {
                 alert("密码不能为空");
                 return false;
+            }else if (password!==passwords){
+                alert("两次密码输入不一致")
+                return false;
             }
             return true;
         }
@@ -33,7 +36,7 @@
             width: 450px;
             border: 1px solid #ccc;
             margin: 0 auto;
-            margin-top: 150px;
+            margin-top: 100px;
             padding: 20px;
             border-radius: 5px;
             box-shadow: 2px 2px 5px #ccc;
@@ -70,7 +73,7 @@
 </head>
 <body>
 <div class="login-box">
-    <h1 class="login-title">欢迎注册</h1>
+    <h1 class="login-title"><a href="login.jsp">登录</a> | <a href="register.jsp">注册</a></h1>
     <form action="loginServlet" method="post">
         <div class="login-row">
             账号：<input type="text" class="login-text" name="username" id="username"/>
@@ -82,8 +85,8 @@
             密码：<input type="password" class="login-text" name="passwords" id="passwords"/>
         </div>
         <div class="login-row">
-            性别：
-            <select name="sex" id="sex">
+            性别:&nbsp;&nbsp;
+            <select name="sex" id="sex" class="login-text">
                 <option>保密</option>
                 <option>男</option>
                 <option>女</option>

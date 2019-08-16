@@ -1,5 +1,7 @@
 package com.filter;
 
+import com.entity.User;
+
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,22 +32,24 @@ public class UserFilter implements Filter {
         HttpServletResponse response=(HttpServletResponse) servletResponse;
         HttpSession session=request.getSession();
 
-        String username=(String) session.getAttribute("username");
+        User user =(User) session.getAttribute("user");
+//        String username=user.getUserName();
 
         String path = request.getRequestURI();
         System.out.println(path);
-        if (path.equals("/login.jsp")||path.equals("/error.jsp")||path.equals("/loginServlet")||path.equals("/register.jsp")){
+        if (path.equals("/login.jsp")||path.equals("/error.jsp")||path.equals("/loginServlet")||path.equals("/register.jsp")||path.equals("/")){
             filterChain.doFilter(servletRequest,servletResponse);
             return;
         }
-        if ("".equals(username)||username==null){
-            System.out.println("do");
-            request.setAttribute("error","<h1>请登陆后查看</h1>");
-            request.getRequestDispatcher("error.jsp").forward(request,response);
+        if (user==null||"".equals(user.getUserName())||user.getUserName()==null) {
+            request.setAttribute("error", "<h1>请登陆后查看</h1>   <a href=\"login.jsp\">请点这里登陆</a>");
+            request.getRequestDispatcher("error.jsp").forward(request, response);
         }
         else {
             filterChain.doFilter(servletRequest,servletResponse);
         }
+
+
 
 
 
